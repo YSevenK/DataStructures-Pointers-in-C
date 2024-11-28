@@ -1,7 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
-
-// 任意位置删除一个节点
+#include "stdio.h"
+#include "stdlib.h"
 
 struct Node
 {
@@ -11,7 +9,6 @@ struct Node
 
 struct Node *head;
 
-// 尾插法
 void Insert(int data)
 {
     struct Node *temp = (struct Node *)malloc(sizeof(struct Node));
@@ -20,18 +17,32 @@ void Insert(int data)
 
     if (head == NULL)
     {
-        // 如果链表为空，新节点就是头节点
         head = temp;
         return;
     }
     struct Node *tail = head;
-    // 找到链表的尾节点
     while (tail->next != NULL)
     {
         tail = tail->next;
     }
-    // 将新节点插入到尾节点之后
     tail->next = temp;
+}
+
+void Delete(int n)
+{
+    struct Node *temp1 = head;
+    if (n == 1)
+    {
+        head = temp1->next;
+        free(temp1);
+        return;
+    }
+    struct Node *temp2 = head;
+    int i;
+    for (int i = 0; i < n - 2; i++)
+        temp1 = temp1->next;
+    temp1->next = temp2->next;
+    free(temp2);
 }
 
 void Print()
@@ -45,36 +56,17 @@ void Print()
     printf("\n");
 }
 
-void Delete(int n)
-{
-    struct Node *temp1 = head;
-    if (n == 1)
-    {
-        head = temp1->next;
-        free(temp1);
-        return;
-    }
-    int i;
-    for (i = 0; i < n - 2; i++)
-        temp1 = temp1->next;
-    struct Node *temp2 = temp1->next;
-    temp1->next = temp2->next;
-    free(temp2);
-}
-
 int main()
 {
-    head = NULL;
-    Insert(2);
-    Insert(4);
-    Insert(6);
-    Insert(5);
-    Print();
     int n;
-    printf("enter a position: \n");
+    head = NULL;
+    Insert(7);
+    Insert(9);
+    Insert(11);
+    Insert(10);
+    Print();
+    printf("enter the position: ");
     scanf("%d", &n);
     Delete(n);
     Print();
-
-    return 0;
 }
